@@ -1,4 +1,3 @@
-
 """Prompts used by the lesson generator and quality evaluator."""
 
 GENERATOR_PROMPT = """
@@ -47,19 +46,19 @@ The overall result passes only when all six criteria are true.
 
 Return only valid JSON in this exact structure:
 
-{
+{{
   "passed": true,
-  "criteria": {
+  "criteria": {{
     "accuracy": true,
     "beginner_friendly": true,
     "examples": true,
     "jargon_explained": true,
     "key_points": true,
     "logical_flow": true
-  },
+  }},
   "failure_reasons": [],
   "improvement_instructions": []
-}
+}}
 
 Replace the example values with your actual evaluation.
 Do not give partial credit.
