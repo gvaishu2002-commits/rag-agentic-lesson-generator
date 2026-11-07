@@ -1,23 +1,27 @@
-from generator import LessonGenerator
-from evaluator import LessonEvaluator
-from rejection_logger import RejectionLogger
+"""Run the self-evaluating lesson generation agent."""
 
-topic = "Introduction to RAG"
+from dotenv import load_dotenv
+from src.agent import LessonAgent
 
-generator = LessonGenerator()
-evaluator = LessonEvaluator()
-logger = RejectionLogger()
 
-lesson = generator.generate(topic)
+def main():
+    load_dotenv()
 
-result = evaluator.evaluate(lesson)
+    topic = "Introduction to RAG"
+    agent = LessonAgent(max_retries=2)
 
-if result["passed"]:
-    print("Lesson Passed")
-    print(lesson)
-else:
-    print("Lesson Failed")
-    logger.log(result["failures"])
+    result = agent.run(topic)
 
-    for failure in result["failures"]:
-        print(failure)
+    if result["passed"]:
+        print("\nSUCCESS: Lesson passed evaluation.")
+        print(f"Attempts: {len(result['attempts'])}")
+        print("\nFINAL LESSON\n")
+        print(result["lesson"])
+    else:
+        print("\nThe lesson did not pass after all attempts.")
+        print(f"Attempts: {len(result['attempts'])}")
+        print("Check output/rejection_logs.jsonl for details.")
+
+
+if __name__ == "__main__":
+    main()
