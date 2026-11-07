@@ -1,0 +1,228 @@
+
+# Self-Evaluating AI Lesson Content Generator
+
+## 1. Project Overview
+
+This project builds an Agentic AI system that generates, evaluates, and improves beginner-friendly learning content.
+
+The submission topic is **Introduction to RAG (Retrieval-Augmented Generation)**.
+
+The target audience is a Class 12 graduate in India who has limited English vocabulary and may come from a non-English-medium educational background.
+
+The system does more than generate a lesson. It checks the lesson against a quality rubric, identifies failures, and regenerates the content using feedback.
+
+## 2. Problem Statement
+
+AI-generated lessons may contain incorrect information, difficult language, missing explanations, or confusing examples.
+
+This project addresses these problems through an automated workflow that generates educational content and evaluates whether it is good enough to deliver to a beginner.
+
+## 3. Project Objectives
+
+- Generate a complete beginner-friendly lesson on RAG.
+- Explain what RAG is, why it matters, and how it works.
+- Evaluate content using clear pass/fail checkpoints.
+- Reject lessons that fail the quality evaluation.
+- Regenerate failed lessons using evaluator feedback.
+- Stop after a maximum of two retries.
+- Maintain rejection logs and persistent memory.
+- Use feedback from repeated failures to improve future generation.
+
+## 4. Agentic Workflow
+
+The system follows a generate → evaluate → regenerate workflow.
+
+1. **Input:** Receive a topic from the user.
+2. **Generate:** Create a standalone beginner-friendly lesson.
+3. **Evaluate:** Check the lesson against the quality rubric.
+4. **Decide:** Accept the lesson only when all required checks pass.
+5. **Reject:** Record the failed criteria and reasons.
+6. **Improve:** Send feedback to the generator.
+7. **Regenerate:** Generate an improved lesson, allowing a maximum of two retries.
+8. **Output:** Save the passing lesson and rejection report.
+9. **Remember:** Store feedback and repeated failure patterns for future runs.
+
+## 5. Quality Evaluation Rubric
+
+Each criterion has a strict pass/fail result. There is no partial credit.
+
+| Evaluation Criterion | What the evaluator checks |
+|---|---|
+| Accuracy and grounding | Information is correct and supported. |
+| Beginner-friendly language | A complete beginner can understand it. |
+| Teaching by example | Relevant and easy examples are included. |
+| Clear language | Technical terms are explained. |
+| Key point coverage | Important topic concepts are covered. |
+| Coherent teaching flow | The lesson follows a logical order. |
+
+A lesson is accepted only when every required criterion passes.
+
+## 6. Retry and Rejection Handling
+
+When a lesson fails:
+
+- The evaluator identifies the failed criteria.
+- Reasons for rejection are recorded.
+- Improvement instructions are created.
+- The generator uses the instructions to produce a revised lesson.
+- The evaluator checks the revised lesson again.
+
+The system allows a maximum of two retries. If the lesson still fails, the workflow terminates and reports the failure rather than accepting an unsuccessful result.
+
+## 7. Self-Evolving Mechanism
+
+The system records repeated failure patterns and uses stored feedback to improve future generation instructions.
+
+For example, if lessons repeatedly use unexplained technical words, that failure pattern can be stored and used to strengthen future instructions about explaining technical terms.
+
+This makes future generation more informed by previous evaluation results.
+
+## 8. Persistent Memory
+
+The project uses persistent JSON-based memory to retain information across runs.
+
+Memory is designed to store:
+
+- Previous generation runs
+- Repeated failure patterns
+- Evaluator feedback
+- Improvement instructions
+- Run history
+
+The stored information helps the system use previous feedback during later runs.
+
+## 9. Architecture and Design Decisions
+
+The workflow is divided into separate components:
+
+- **Generator:** Creates the lesson.
+- **Evaluator:** Checks the lesson against the rubric.
+- **Agent:** Controls the workflow and retry limit.
+- **Memory:** Stores feedback and failure patterns.
+- **Rejection Logger:** Records failed attempts and improvements.
+- **Output Handler:** Saves the final lesson and run report.
+
+This modular design makes the workflow easier to test, maintain, and improve.
+
+The evaluator is separate from the generator so that lesson quality is checked independently rather than automatically accepting generated content.
+
+## 10. Technology Stack
+
+- Python
+- OpenAI API
+- JSON-based persistent memory
+- Pytest
+- GitHub
+
+## 11. Project Structure
+
+```text
+rag-agentic-lesson-generator/
+├── README.md
+├── requirements.txt
+├── .env.example
+├── .gitignore
+├── src/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── agent.py
+│   ├── generator.py
+│   ├── evaluator.py
+│   ├── prompts.py
+│   ├── memory.py
+│   └── rejection_logger.py
+├── tests/
+│   └── test_evaluator.py
+├── docs/
+│   └── architecture.md
+├── data/
+└── output/
+```
+
+## 12. Setup Instructions
+
+### Step 1: Clone the repository
+
+```bash
+git clone https://github.com/gvaishu2002-commits/rag-agentic-lesson-generator.git
+cd rag-agentic-lesson-generator
+```
+
+### Step 2: Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+For Windows:
+
+```bash
+venv\Scripts\activate
+```
+
+For macOS or Linux:
+
+```bash
+source venv/bin/activate
+```
+
+### Step 3: Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 4: Configure the API key
+
+Create a `.env` file using `.env.example`.
+
+Add your API key and configuration:
+
+```text
+OPENAI_API_KEY=your_api_key_here
+OPENAI_MODEL=gpt-4o-mini
+MAX_RETRIES=2
+```
+
+Never upload your actual API key to GitHub.
+
+### Step 5: Run the application
+
+```bash
+python -m src.main --topic "Introduction to RAG"
+```
+
+### Step 6: Run the tests
+
+```bash
+pytest -q
+```
+
+## 13. Expected Outputs
+
+The completed workflow should produce:
+
+- Final evaluated lesson
+- Pass/fail evaluation results
+- Rejection reasons
+- Retry history
+- Improvement instructions
+- Run report
+- Persistent memory updates
+
+## 14. Limitations
+
+- Generated content depends on the selected language model.
+- Automated evaluation cannot guarantee detection of every factual error.
+- Live generation requires a valid API key and internet connection.
+- Persistent memory is stored locally in JSON format.
+
+## 15. Conclusion
+
+This project demonstrates an Agentic AI workflow that generates educational content, evaluates its quality, rejects unsuccessful outputs, and improves content through controlled retries and feedback.
+
+The objective is to build a reliable content-generation system that produces clear and useful learning material for beginners.
+
+## Author
+
+GenAI Engineer – Content Systems Take-Home Assessment
