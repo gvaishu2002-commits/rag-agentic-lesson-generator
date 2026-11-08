@@ -1,1 +1,1 @@
-self.generator = LessonGenerator()
+
